@@ -1,0 +1,374 @@
+// Dados do menu agora estão agrupados por restaurante neste arquivo
+const estabelecimentos = [
+    {
+        id: 1,
+        nome: "Bom Prato",
+        telefone: "5592981555444", // Número com código do país (55)
+        pratos: [
+            {
+                "id": 1,
+                "nome": "X-Picanha",
+                "descricao": "Delicioso hambúrguer de picanha com queijo, bacon e molho especial.",
+                "preco": 25.50,
+                "tipo": "lanche",
+                "image": "https://images.unsplash.com/photo-1568901346379-24b52b3c2e0b?q=80&w=1974&auto=format&fit=crop"
+            },
+            {
+                "id": 2,
+                "nome": "Pastel de Queijo",
+                "descricao": "Pastel frito na hora com recheio cremoso de queijo.",
+                "preco": 8.00,
+                "tipo": "lanche",
+                "image": "https://images.unsplash.com/photo-1620025916383-7c08a8e104ae?q=80&w=1974&auto=format&fit=crop"
+            },
+            {
+                "id": 3,
+                "nome": "Coca-Cola",
+                "descricao": "Lata 350ml",
+                "preco": 6.00,
+                "tipo": "distribuidora",
+                "image": "https://images.unsplash.com/photo-1628178825852-6a6d6e7f8e8b?q=80&w=1974&auto=format&fit=crop"
+            }
+        ]
+    },
+    {
+        id: 2,
+        nome: "Sabor dos Anjos",
+        telefone: "5592981446677", // Número com código do país (55)
+        pratos: [
+            {
+                "id": 4,
+                "nome": "Pizza Calabresa",
+                "descricao": "Clássica pizza de calabresa com cebola e azeitonas pretas.",
+                "preco": 45.00,
+                "tipo": "comida",
+                "image": "https://images.unsplash.com/photo-1593560704563-f1a69a6d150b?q=80&w=1974&auto=format&fit=crop"
+            },
+            {
+                "id": 5,
+                "nome": "Cerveja Heineken",
+                "descricao": "Lata 350ml. Gelada para refrescar!",
+                "preco": 5.00,
+                "tipo": "distribuidora",
+                "image": "https://images.unsplash.com/photo-1627775955122-83b6f00f074d?q=80&w=1974&auto=format&fit=crop"
+            },
+            {
+                "id": 6,
+                "nome": "Filé com Fritas",
+                "descricao": "Generosa porção de filé de carne e batatas fritas crocantes.",
+                "preco": 35.00,
+                "tipo": "comida",
+                "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1974&auto=format&fit=crop"
+            }
+        ]
+    }
+];
+
+let cart = [];
+// A variável 'pratos' será populada com todos os pratos de todos os estabelecimentos
+let pratos = [];
+
+// Popula o array de pratos e adiciona a informação do restaurante a cada um
+estabelecimentos.forEach(estabelecimento => {
+    estabelecimento.pratos.forEach(prato => {
+        pratos.push({
+            ...prato,
+            restaurante_id: estabelecimento.id,
+            restaurante_nome: estabelecimento.nome,
+            restaurante_telefone: estabelecimento.telefone
+        });
+    });
+});
+
+const menuEl = document.getElementById('menu');
+const cartItemsEl = document.getElementById('cart-items');
+const floatingCartCountEl = document.getElementById('floating-cart-count');
+const cartTotalEl = document.getElementById('cart-total');
+const cartEl = document.getElementById('cart');
+const backdropEl = document.getElementById('backdrop');
+const searchInput = document.getElementById('search');
+const mobileSearchInput = document.getElementById('mobile-search');
+const categoryButtons = document.querySelectorAll('.category-nav button');
+const checkoutForm = document.getElementById('checkout-form');
+const confirmationModal = document.getElementById('confirmation-modal');
+const orderSummaryEl = document.getElementById('order-summary');
+
+// Helper function to close all modals/sidebars
+function closeAll() {
+    cartEl.classList.remove('active');
+    confirmationModal.classList.remove('active');
+    backdropEl.style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// Render food items on the page
+function renderMenu(items) {
+    menuEl.innerHTML = '';
+    if (items.length === 0) {
+        menuEl.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: #777; padding: 20px;">Nenhum prato encontrado.</p>';
+        return;
+    }
+    items.forEach(prato => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <img src="${prato.image}" alt="${prato.nome}" loading="lazy">
+            <div class="card-content">
+                <h3>${prato.nome}</h3>
+                <p class="restaurante-nome">${prato.restaurante_nome}</p>
+                <p class="description">${prato.descricao}</p>
+                <p class="price">R$ ${prato.preco.toFixed(2).replace('.', ',')}</p>
+                <button onclick="addToCart(${prato.id})">Adicionar</button>
+            </div>
+        `;
+        menuEl.appendChild(card);
+    });
+}
+
+// Add item to cart
+function addToCart(id) {
+    const item = pratos.find(p => p.id === id);
+    if (item) {
+        const existingItem = cart.find(c => c.id === id);
+        if (existingItem) {
+            existingItem.quantity++;
+        } else {
+            cart.push({ ...item, quantity: 1 });
+        }
+        renderCart();
+        saveCart();
+
+        // Feedback visual
+        const button = event.target;
+        const originalText = button.textContent;
+        button.textContent = "Adicionado!";
+        button.style.backgroundColor = "#28a745";
+
+        setTimeout(() => {
+            button.textContent = originalText;
+            button.style.backgroundColor = "";
+        }, 1000);
+    }
+}
+function saveCart() {
+    localStorage.setItem('jutai_cart', JSON.stringify(cart));
+}
+function loadCart() {
+    const saved = localStorage.getItem('jutai_cart');
+    if (saved) cart = JSON.parse(saved);
+}
+
+// Remove item from cart
+function removeFromCart(id) {
+    cart = cart.filter(item => item.id !== id);
+    renderCart();
+    saveCart();
+}
+
+// Update cart UI and total price
+function renderCart() {
+    cartItemsEl.innerHTML = '';
+    if (cart.length === 0) {
+        cartItemsEl.innerHTML = '<li style="text-align: center; color: #777; padding: 20px;">Seu carrinho está vazio.</li>';
+        cartTotalEl.textContent = 'R$ 0,00';
+        floatingCartCountEl.textContent = '0';
+        return;
+    }
+
+    let total = 0;
+    cart.forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <div class="item-info">
+                <span class="item-name">${item.nome} (${item.restaurante_nome})</span>
+                <span class="item-price">R$ ${(item.preco * item.quantity).toFixed(2).replace('.', ',')}</span>
+                <div class="quantity-controls">
+                    <button onclick="updateQuantity(${item.id}, ${item.quantity - 1})">-</button>
+                    <span>${item.quantity}</span>
+                    <button onclick="updateQuantity(${item.id}, ${item.quantity + 1})">+</button>
+                </div>
+            </div>
+            <button class="remove-item" onclick="removeFromCart(${item.id})"><i class="fas fa-trash-alt"></i></button>
+        `;
+        cartItemsEl.appendChild(li);
+        total += item.preco * item.quantity;
+    });
+
+    cartTotalEl.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+    const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+    floatingCartCountEl.textContent = totalCount;
+    saveCart();
+}
+
+// Update item quantity
+function updateQuantity(id, newQuantity) {
+    if (newQuantity < 1) {
+        removeFromCart(id);
+        return;
+    }
+
+    const item = cart.find(c => c.id === id);
+    if (item) {
+        item.quantity = newQuantity;
+        renderCart();
+        saveCart();
+    }
+}
+
+// Show/hide cart sidebar
+function toggleCart() {
+    cartEl.classList.toggle('active');
+    backdropEl.style.display = cartEl.classList.contains('active') ? 'block' : 'none';
+    document.body.style.overflow = cartEl.classList.contains('active') ? 'hidden' : 'auto';
+}
+
+// Fechar carrinho (função separada para o botão X)
+function closeCart() {
+    cartEl.classList.remove('active');
+    backdropEl.style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// Handle search and category filtering
+function filterMenu(query = '') {
+    const selectedCategory = document.querySelector('.category-nav button.active').dataset.category;
+    const filteredItems = pratos.filter(prato => {
+        const matchesCategory = selectedCategory === 'todos' || prato.tipo.toLowerCase() === selectedCategory.toLowerCase();
+        const matchesSearch = prato.nome.toLowerCase().includes(query.toLowerCase()) ||
+            prato.descricao.toLowerCase().includes(query.toLowerCase());
+        return matchesCategory && matchesSearch;
+    });
+    renderMenu(filteredItems);
+}
+
+// Show order summary before sending
+function showOrderSummary() {
+    // Agrupa os itens do carrinho por restaurante
+    const pedidosPorRestaurante = {};
+    cart.forEach(item => {
+        if (!pedidosPorRestaurante[item.restaurante_id]) {
+            pedidosPorRestaurante[item.restaurante_id] = {
+                restaurante_nome: item.restaurante_nome,
+                restaurante_telefone: item.restaurante_telefone,
+                items: []
+            };
+        }
+        pedidosPorRestaurante[item.restaurante_id].items.push(item);
+    });
+
+    orderSummaryEl.innerHTML = '';
+    // Gera a mensagem e o botão para cada restaurante
+    for (const restauranteId in pedidosPorRestaurante) {
+        const restaurante = pedidosPorRestaurante[restauranteId];
+        let message = `Olá, ${restaurante.restaurante_nome}! Gostaria de fazer um pedido:\n\n*--- Detalhes do Pedido ---*\n`;
+        let total = 0;
+
+        let itemsHtml = '<ul>';
+        restaurante.items.forEach(item => {
+            message += `${item.quantity}x ${item.nome} - R$ ${(item.preco * item.quantity).toFixed(2).replace('.', ',')}\n`;
+            total += item.preco * item.quantity;
+            itemsHtml += `<li>${item.quantity}x ${item.nome}</li>`;
+        });
+        itemsHtml += '</ul>';
+
+        message += `\n*Total do pedido em seu restaurante: R$ ${total.toFixed(2).replace('.', ',')}*\n\n`;
+        message += `*--- Dados do Cliente ---*\n`;
+        message += `Nome: ${document.getElementById('nome').value}\n`;
+        message += `Endereço: ${document.getElementById('endereco').value}\n`;
+        if (document.getElementById('referencia').value) message += `Ponto de Referência: ${document.getElementById('referencia').value}\n`;
+        message += `Pagamento: ${document.getElementById('pagamento').value}\n`;
+        if (document.getElementById('troco').value) message += `Troco para: ${document.getElementById('troco').value}\n`;
+        message += `\nObrigado!`;
+
+        const whatsappUrl = `https://wa.me/${restaurante.restaurante_telefone}?text=${encodeURIComponent(message)}`;
+
+        const card = document.createElement('div');
+        card.className = 'restaurante-card';
+        card.innerHTML = `
+            <h3>${restaurante.restaurante_nome}</h3>
+            ${itemsHtml}
+            <div class="total-restaurante">Total: R$ ${total.toFixed(2).replace('.', ',')}</div>
+            <a href="${whatsappUrl}" target="_blank">
+                <button><i class="fab fa-whatsapp"></i> Enviar Pedido</button>
+            </a>
+        `;
+        orderSummaryEl.appendChild(card);
+    }
+    
+    closeCart(); // Fecha o carrinho
+    confirmationModal.classList.add('active'); // Abre o modal de confirmação
+    backdropEl.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+// Checkout function to generate WhatsApp message
+function checkout() {
+    const nome = document.getElementById('nome').value;
+    const endereco = document.getElementById('endereco').value;
+    const pagamento = document.getElementById('pagamento').value;
+
+    if (cart.length === 0) {
+        showCustomAlert("Seu carrinho está vazio!");
+        return;
+    }
+
+    if (!nome || !endereco || !pagamento) {
+        showCustomAlert("Por favor, preencha todos os campos obrigatórios (Nome, Endereço, Pagamento) para finalizar o pedido.");
+        return;
+    }
+    
+    showOrderSummary();
+}
+
+// Event Listeners
+document.addEventListener('DOMContentLoaded', () => {
+    renderMenu(pratos);
+    loadCart();
+    renderCart();
+});
+
+searchInput.addEventListener('input', (e) => {
+    filterMenu(e.target.value);
+});
+
+mobileSearchInput.addEventListener('input', (e) => {
+    filterMenu(e.target.value);
+});
+
+categoryButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        categoryButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        filterMenu(searchInput.value || mobileSearchInput.value);
+    });
+});
+
+// Usar closeCart para o botão X
+document.querySelector('.close-cart').addEventListener('click', closeCart);
+
+checkoutForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    checkout();
+});
+
+// Fechar modais ao clicar no backdrop
+backdropEl.addEventListener('click', closeAll);
+
+darkModeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+
+    // Troca o ícone entre lua ☾ e sol ☀️
+    if (document.body.classList.contains('dark-mode')) {
+        darkModeToggle.textContent = "☀️";
+        localStorage.setItem("darkMode", "enabled");
+    } else {
+        darkModeToggle.textContent = "🌙";
+        localStorage.setItem("darkMode", "disabled");
+    }
+});
+
+// Mantém a escolha ao recarregar a página
+if (localStorage.getItem("darkMode") === "enabled") {
+    document.body.classList.add("dark-mode");
+    darkModeToggle.textContent = "☀️";
+}

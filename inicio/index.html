@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JutaiFood - O seu delivery!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo" onclick="renderMenu(pratos)"><i class="fas fa-orange"></i> JutaiFood</div>
+        <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" id="search" placeholder="Pesquisar pratos, bebidas...">
+        </div>
+        
+        <button id="dark-mode-toggle">🌙</button>
+    </header>
+
+    <div class="mobile-search">
+        <div class="mobile-search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" id="mobile-search" placeholder="Pesquisar pratos, bebidas...">
+        </div>
+    </div>
+
+    <nav class="category-nav container">
+        <button data-category="todos" class="active">Todos</button>
+        <button data-category="lanche">Lanches</button>
+        <button data-category="comida">Comidas</button>
+        <button data-category="distribuidora">Distribuidora</button>
+        <button data-category="sobremesa">Sobremesas</button>
+    </nav>
+
+    <section class="ads">
+    <img src="../imagens/anuncie aqui.png" alt="Promoção do dia" style="width:100%; height:auto; display:block; border-radius: 10px;">
+</section>
+
+    <main id="menu" class="container"></main>
+
+    <div class="floating-cart" onclick="toggleCart()">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="floating-cart-count" id="floating-cart-count">0</span>
+    </div>
+
+    <div id="cart">
+        <div class="cart-header">
+            <h2>Seu Carrinho</h2>
+            <button class="close-cart" onclick="closeCart()">&times;</button>
+        </div>
+        <ul id="cart-items">
+            <li>Seu carrinho está vazio.</li>
+        </ul>
+        <div class="cart-footer">
+            <div class="total">
+                <span>Total:</span>
+                <span id="cart-total">R$ 0,00</span>
+            </div>
+
+            <form id="checkout-form">
+                <div class="form-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="nome" placeholder="Nome Completo" required>
+                </div>
+                <div class="form-group">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <input type="text" id="endereco" placeholder="Endereço (Rua, Nº, Bairro)" required>
+                </div>
+                <div class="form-group">
+                    <i class="fas fa-location-arrow"></i>
+                    <input type="text" id="referencia" placeholder="Ponto de Referência">
+                </div>
+                <div class="form-group">
+                    <i class="fas fa-credit-card"></i>
+                    <input type="text" id="pagamento" placeholder="Pagamento (Dinheiro/PIX/Cartão)" required>
+                </div>
+                <div class="form-group">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <input type="text" id="troco" placeholder="Troco para quanto?">
+                </div>
+                <button type="submit" class="btn-confirmar">
+                    <i class="fab fa-whatsapp"></i> Confirmar Pedido
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="backdrop" onclick="closeAll()"></div>
+
+    <div id="confirmation-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeAll()">&times;</span>
+            <h2>Confirme seu pedido</h2>
+            <p>Seu pedido contém itens de diferentes restaurantes. Clique no botão de cada restaurante para enviar sua solicitação de compra via WhatsApp.</p>
+            <div id="order-summary">
+                </div>
+            <button onclick="closeAll()" class="btn-fechar">Fechar</button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <h3><i class="fas fa-orange"></i> JutaiFood</h3>
+            <p>Seu app de delivery preferido em Jutaí! Peça agora e receba no conforto da sua casa.</p>
+            <div class="social-icons">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 JutaiFood. Todos os direitos reservados.</p>
+            <p>Contato: (92) 98158-3548 | Endereço: Rua nova 02, 123, Sao Pedro</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
