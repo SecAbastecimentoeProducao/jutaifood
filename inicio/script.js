@@ -6,59 +6,105 @@ const estabelecimentos = [
         telefone: "5592981555444", // Número com código do país (55)
         pratos: [
             {
-                "id": 1,
-                "nome": "X-Picanha",
-                "descricao": "Delicioso hambúrguer de picanha com queijo, bacon e molho especial.",
+                "id": 1001,
+                "nome": "X-Salada",
+                "descricao": "Delicioso hambúrguer de carne com queijo,clabres, bacon e molho especial.",
                 "preco": 25.50,
                 "tipo": "lanche",
-                "image": "https://images.unsplash.com/photo-1568901346379-24b52b3c2e0b?q=80&w=1974&auto=format&fit=crop"
+                "image": "../imagens/xCalabresa.jpg"
             },
             {
-                "id": 2,
+                "id": 1002,
                 "nome": "Pastel de Queijo",
                 "descricao": "Pastel frito na hora com recheio cremoso de queijo.",
                 "preco": 8.00,
                 "tipo": "lanche",
-                "image": "https://images.unsplash.com/photo-1620025916383-7c08a8e104ae?q=80&w=1974&auto=format&fit=crop"
+                "image": "../imagens/pastelQueijo.jpg"
             },
             {
-                "id": 3,
+                "id": 1003,
                 "nome": "Coca-Cola",
                 "descricao": "Lata 350ml",
                 "preco": 6.00,
                 "tipo": "distribuidora",
-                "image": "https://images.unsplash.com/photo-1628178825852-6a6d6e7f8e8b?q=80&w=1974&auto=format&fit=crop"
+                "image": "../imagens/cocaCola.png"
             }
         ]
     },
     {
         id: 2,
+        nome: "Sushi oriental",
+        telefone: "5592981555444", // Número com código do país (55)
+        pratos: [
+            {
+                "id": 2001,
+                "nome": "Sushi Combo",
+                "descricao": "Delicioso combo de sushi variados 40 unidades" ,
+                "preco": 70.00,
+                "tipo": "lanche",
+                "image": "../imagens/sushi.webp"
+            },
+            {
+                "id": 2002,
+                "nome": "Sushi Peixe tambaqui",
+                "descricao": "sushi de peixe regional tambaqui 10 unidades.",
+                "preco": 20.00,
+                "tipo": "lanche",
+                "image": "../imagens/sushiTambaqui.jpg"
+            },
+            {
+                "id": 2003,
+                "nome": "Sushi Banana",
+                "descricao": "sushi de banana da terra 10 unidades.",
+                "preco": 20.00,
+                "tipo": "lanche",
+                "image": "../imagens/sushiBanana.jpg"
+            },
+        ]
+    },
+    {
+        id: 3,
         nome: "Sabor dos Anjos",
         telefone: "5592981446677", // Número com código do país (55)
         pratos: [
             {
-                "id": 4,
+                "id": 3001,
                 "nome": "Pizza Calabresa",
                 "descricao": "Clássica pizza de calabresa com cebola e azeitonas pretas.",
                 "preco": 45.00,
-                "tipo": "comida",
-                "image": "https://images.unsplash.com/photo-1593560704563-f1a69a6d150b?q=80&w=1974&auto=format&fit=crop"
+                "tipo": "lanche",
+                "image": "../imagens/pizzaCalabresa.jpg"
             },
             {
-                "id": 5,
-                "nome": "Cerveja Heineken",
-                "descricao": "Lata 350ml. Gelada para refrescar!",
-                "preco": 5.00,
+                "id": 3003,
+                "nome": "kikao Simples",
+                "descricao": "kikao simples com bao e salcicha.",
+                "preco": 10.00,
+                "tipo": "lanche",
+                "image": "../imagens/kikao.jpeg"
+            }
+        ]
+    },
+    {
+        id: 4,
+        nome: "Distribuidora Lyan",
+        telefone: "5592981446677", // Número com código do país (55)
+        pratos: [
+            {
+                "id": 4001,
+                "nome": "Cerveja Itaipava",
+                "descricao": "Clássica cerveja Itaipava fardinho 280ml 15/und.",
+                "preco": 45.00,
                 "tipo": "distribuidora",
-                "image": "https://images.unsplash.com/photo-1627775955122-83b6f00f074d?q=80&w=1974&auto=format&fit=crop"
+                "image": "../imagens/cerveja.jpeg"
             },
             {
-                "id": 6,
-                "nome": "Filé com Fritas",
-                "descricao": "Generosa porção de filé de carne e batatas fritas crocantes.",
-                "preco": 35.00,
-                "tipo": "comida",
-                "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1974&auto=format&fit=crop"
+                "id": 4003,
+                "nome": "Carvao 3kg",
+                "descricao": "Sacola de carvao.",
+                "preco": 10.00,
+                "tipo": "distribuidora",
+                "image": "../imagens/carvaoSacola.webp"
             }
         ]
     }
