@@ -97,6 +97,9 @@ const estabelecimentos = [
     {
         id: 4,
         nome: "Distribuidora Lyan",
+        logoUrl: "../imagens/distribuidoraLyan.png", // Adicionei um logo padrão aqui, pois estava faltando.
+        aberto: '09:00', // Adicionei horários aqui, pois estava faltando.
+        fecha: '23:00', // Adicionei horários aqui, pois estava faltando.
         telefone: "5592981446677", // Número com código do país (55)
         pratos: [
             {
@@ -204,7 +207,7 @@ function showHomeView() {
 }
 
 
-// *** FUNÇÃO PARA RENDERIZAR A PÁGINA DO RESTAURANTE ***
+// *** FUNÇÃO PARA RENDERIZAR A PÁGINA DO RESTAURANTE (CORRIGIDA) ***
 function renderRestauranteView(restauranteId) {
     const restaurante = estabelecimentos.find(e => e.id === restauranteId);
     
@@ -221,43 +224,21 @@ function renderRestauranteView(restauranteId) {
     // 2. Prepara e exibe a Nova Vista
     restauranteViewEl.style.display = 'block';
     
-  // *** FUNÇÃO PARA RENDERIZAR A PÁGINA DO RESTAURANTE (Atualizada) ***
-function renderRestauranteView(restauranteId) {
-    // 1. Encontra o restaurante
-    const restaurante = estabelecimentos.find(e => e.id === restauranteId);
-    
-    if (!restaurante) {
-        showHomeView();
-        return;
-    }
-    
-    // 2. Oculta a Home/Menu Principal
-    menuEl.style.display = 'none';
-    if (categoryNavEl) categoryNavEl.style.display = 'none';
-    if (mobileSearchContainerEl) mobileSearchContainerEl.style.display = 'none';
-    
-    // 3. Prepara e exibe a Nova Vista
-    restauranteViewEl.style.display = 'block';
-    
-    // 4. Renderiza o Cabeçalho do Restaurante (AGORA COM LOGO E HORÁRIOS CORRETOS)
-    
-    // Determina a URL do logo, usando um fallback se estiver faltando
+    // Determina a URL do logo e horários, usando fallback se estiverem faltando
     const logoSrc = restaurante.logoUrl || '../imagens/default_logo.png';
-    
-    // Determina os horários, usando um placeholder se estiver faltando
     const horarioAberto = restaurante.aberto || 'N/A';
     const horarioFecha = restaurante.fecha || 'N/A';
     
+    // 3. Renderiza o Cabeçalho do Restaurante
     restauranteHeaderEl.innerHTML = `
         <img src="${logoSrc}" alt="Logo ${restaurante.nome}" class="restaurante-logo">
         <h2>${restaurante.nome} <i class="fas fa-store-alt" style="color: var(--primary-color);"></i></h2>
-        <p>Aberto das ${horarioAberto}h às ${horarioFecha}h</p> 
-        <button onclick="showHomeView()" style="margin-top: 10px; padding: 8px 15px; border: 1px solid var(--primary-color); background: none; color: var(--primary-color); border-radius: 5px; cursor: pointer;">
+        <p>Aberto das ${horarioAberto}h às ${horarioFecha}h</p> <button onclick="showHomeView()" style="margin-top: 10px; padding: 8px 15px; border: 1px solid var(--primary-color); background: none; color: var(--primary-color); border-radius: 5px; cursor: pointer;">
             ← Voltar ao Menu Principal
         </button>
     `;
     
-    // 5. Renderiza os Pratos do Restaurante
+    // 4. Renderiza os Pratos do Restaurante
     const pratosDoRestaurante = pratos.filter(p => p.restaurante_id === restauranteId);
     
     restauranteMenuListEl.innerHTML = '';
@@ -289,6 +270,7 @@ function renderRestauranteView(restauranteId) {
 
     setTimeout(optimizeImageLoading, 100);
 }
+
 
 // *** FUNÇÃO RENDERMENU ADAPTADA PARA O NOVO COMPORTAMENTO (Clique no Card) ***
 function renderMenu(items) {

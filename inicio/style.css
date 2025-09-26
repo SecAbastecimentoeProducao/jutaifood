@@ -744,23 +744,28 @@ body.dark-mode #restaurante-header p {
     padding: 15px 0;
 }
 /* NOVO: Estilo para a imagem/logo do restaurante */
+/* NOVO: Estilo para a imagem/logo do restaurante (600px por 400px e adaptável) */
 #restaurante-header .restaurante-logo {
-    width: 100px; /* Tamanho do logo */
-    height: 100px;
-    object-fit: cover;
-    border-radius: 50%; /* Transforma a imagem em círculo */
+    /* Dimensões base (desktop) */
+    width: 600px; 
+    height: 400px;
+    
+    object-fit: cover; /* Garante que a imagem preencha a área sem distorção */
+    border-radius: 8px; /* Cantos arredondados */
     margin: 0 auto 15px auto; /* Centraliza e adiciona margem inferior */
     border: 3px solid var(--primary-color);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     display: block; /* Garante que fique em uma linha separada */
 }
 
-
-/* Garante que os cards na página do restaurante se adaptem bem em telas maiores */
-@media (min-width: 768px) {
-    #restaurante-menu-list {
-        /* Garante colunas de 280px ou mais para desktop */
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-        gap: 20px;
+/* Adaptação para Telas Pequenas (Celular) */
+@media (max-width: 767px) {
+    #restaurante-header .restaurante-logo {
+        /* Reduz o tamanho da imagem para telas de celular, usando 90% da largura da tela */
+        width: 90%;
+        height: 200px; /* Reduz a altura para não ocupar muito espaço vertical */
+        margin-left: 5%;
+        margin-right: 5%;
+        border-width: 2px;
     }
 }
