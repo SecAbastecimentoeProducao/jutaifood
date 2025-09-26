@@ -109,12 +109,29 @@ const estabelecimentos = [
         ]
     }
 ];
+// Adicione esta função para otimizar imagens
+function optimizeImageLoading() {
+    const images = document.querySelectorAll('img[loading="lazy"]');
+    
+    images.forEach(img => {
+        img.style.backgroundColor = '#f0f0f0';
+        img.style.minHeight = '200px';
+        
+        img.onload = function() {
+            this.style.backgroundColor = 'transparent';
+        };
+        
+        img.onerror = function() {
+            this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjhjZDAxIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM2NjYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5JbWFnZW0gbsOjbyBjYXJyZWdhZGE8L3RleHQ+PC9zdmc+';
+            this.alt = 'Imagem não disponível';
+        };
+    });
+}
 
 let cart = [];
-// A variável 'pratos' será populada com todos os pratos de todos os estabelecimentos
 let pratos = [];
 
-// Popula o array de pratos e adiciona a informação do restaurante a cada um
+// Popula o array de pratos
 estabelecimentos.forEach(estabelecimento => {
     estabelecimento.pratos.forEach(prato => {
         pratos.push({
@@ -147,18 +164,35 @@ function closeAll() {
     document.body.style.overflow = 'auto';
 }
 
-// Render food items on the page
+// Função para embaralhar array (Algoritmo Fisher-Yates)
+function shuffleArray(array) {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+}
+
+// *** FUNÇÃO RENDERMENU ÚNICA E CORRETA ***
 function renderMenu(items) {
     menuEl.innerHTML = '';
     if (items.length === 0) {
         menuEl.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: #777; padding: 20px;">Nenhum prato encontrado.</p>';
         return;
     }
-    items.forEach(prato => {
+    
+    // Embaralha os itens antes de renderizar
+    const shuffledItems = shuffleArray(items);
+    
+    shuffledItems.forEach(prato => {
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `
-            <img src="${prato.image}" alt="${prato.nome}" loading="lazy">
+            <div class="image-container">
+                <img src="${prato.image}" alt="${prato.nome}" loading="lazy">
+                <div class="image-placeholder"></div>
+            </div>
             <div class="card-content">
                 <h3>${prato.nome}</h3>
                 <p class="restaurante-nome">${prato.restaurante_nome}</p>
@@ -169,9 +203,11 @@ function renderMenu(items) {
         `;
         menuEl.appendChild(card);
     });
+    
+    setTimeout(optimizeImageLoading, 100);
 }
 
-// Add item to cart
+// *** ADICIONE ESTA FUNÇÃO QUE ESTÁ FALTANDO ***
 function addToCart(id) {
     const item = pratos.find(p => p.id === id);
     if (item) {
@@ -196,9 +232,11 @@ function addToCart(id) {
         }, 1000);
     }
 }
+
 function saveCart() {
     localStorage.setItem('jutai_cart', JSON.stringify(cart));
 }
+
 function loadCart() {
     const saved = localStorage.getItem('jutai_cart');
     if (saved) cart = JSON.parse(saved);
@@ -289,7 +327,6 @@ function filterMenu(query = '') {
 
 // Show order summary before sending
 function showOrderSummary() {
-    // Agrupa os itens do carrinho por restaurante
     const pedidosPorRestaurante = {};
     cart.forEach(item => {
         if (!pedidosPorRestaurante[item.restaurante_id]) {
@@ -303,7 +340,6 @@ function showOrderSummary() {
     });
 
     orderSummaryEl.innerHTML = '';
-    // Gera a mensagem e o botão para cada restaurante
     for (const restauranteId in pedidosPorRestaurante) {
         const restaurante = pedidosPorRestaurante[restauranteId];
         let message = `Olá, ${restaurante.restaurante_nome}! Gostaria de fazer um pedido:\n\n*--- Detalhes do Pedido ---*\n`;
@@ -341,8 +377,8 @@ function showOrderSummary() {
         orderSummaryEl.appendChild(card);
     }
     
-    closeCart(); // Fecha o carrinho
-    confirmationModal.classList.add('active'); // Abre o modal de confirmação
+    closeCart();
+    confirmationModal.classList.add('active');
     backdropEl.style.display = 'block';
     document.body.style.overflow = 'hidden';
 }
@@ -366,13 +402,14 @@ function checkout() {
     showOrderSummary();
 }
 
-// Event Listeners
+// *** INICIALIZAÇÃO CORRIGIDA - REMOVA A DUPLICAÇÃO ***
 document.addEventListener('DOMContentLoaded', () => {
-    renderMenu(pratos);
+    renderMenu(shuffleArray(pratos)); // Já inicia embaralhado
     loadCart();
     renderCart();
 });
 
+// Event Listeners
 searchInput.addEventListener('input', (e) => {
     filterMenu(e.target.value);
 });
@@ -389,7 +426,6 @@ categoryButtons.forEach(button => {
     });
 });
 
-// Usar closeCart para o botão X
 document.querySelector('.close-cart').addEventListener('click', closeCart);
 
 checkoutForm.addEventListener('submit', (e) => {
@@ -397,24 +433,26 @@ checkoutForm.addEventListener('submit', (e) => {
     checkout();
 });
 
-// Fechar modais ao clicar no backdrop
 backdropEl.addEventListener('click', closeAll);
 
-darkModeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
+// Modo escuro
+const darkModeToggle = document.getElementById('dark-mode-toggle');
 
-    // Troca o ícone entre lua ☾ e sol ☀️
-    if (document.body.classList.contains('dark-mode')) {
+if (darkModeToggle) {
+    darkModeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+
+        if (document.body.classList.contains('dark-mode')) {
+            darkModeToggle.textContent = "☀️";
+            localStorage.setItem("darkMode", "enabled");
+        } else {
+            darkModeToggle.textContent = "🌙";
+            localStorage.setItem("darkMode", "disabled");
+        }
+    });
+
+    if (localStorage.getItem("darkMode") === "enabled") {
+        document.body.classList.add("dark-mode");
         darkModeToggle.textContent = "☀️";
-        localStorage.setItem("darkMode", "enabled");
-    } else {
-        darkModeToggle.textContent = "🌙";
-        localStorage.setItem("darkMode", "disabled");
     }
-});
-
-// Mantém a escolha ao recarregar a página
-if (localStorage.getItem("darkMode") === "enabled") {
-    document.body.classList.add("dark-mode");
-    darkModeToggle.textContent = "☀️";
 }
