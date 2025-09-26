@@ -3,6 +3,9 @@ const estabelecimentos = [
     {
         id: 1,
         nome: "Bom Prato",
+        logoUrl: "../imagens/logo_bomprato.png",
+        aberto: '08:00',
+        fecha: '22:00',
         telefone: "5592981555444", // Número com código do país (55)
         pratos: [
             {
@@ -34,6 +37,9 @@ const estabelecimentos = [
     {
         id: 2,
         nome: "Sushi oriental",
+        logoUrl: "../imagens/logo_bomprato.png",
+        aberto: '08:00',
+        fecha: '22:00',
         telefone: "5592981555444", // Número com código do país (55)
         pratos: [
             {
@@ -65,6 +71,9 @@ const estabelecimentos = [
     {
         id: 3,
         nome: "Sabor dos Anjos",
+        logoUrl: "../imagens/distribuidoraLyan.png",
+        aberto: '08:00',
+        fecha: '22:00',
         telefone: "5592981446677", // Número com código do país (55)
         pratos: [
             {
@@ -109,6 +118,7 @@ const estabelecimentos = [
         ]
     }
 ];
+
 // Adicione esta função para otimizar imagens
 function optimizeImageLoading() {
     const images = document.querySelectorAll('img[loading="lazy"]');
@@ -156,6 +166,14 @@ const checkoutForm = document.getElementById('checkout-form');
 const confirmationModal = document.getElementById('confirmation-modal');
 const orderSummaryEl = document.getElementById('order-summary');
 
+// NOVOS ELEMENTOS PARA A PÁGINA DO RESTAURANTE
+const restauranteViewEl = document.getElementById('restaurante-view');
+const restauranteHeaderEl = document.getElementById('restaurante-header');
+const restauranteMenuListEl = document.getElementById('restaurante-menu-list');
+const categoryNavEl = document.querySelector('.category-nav');
+const mobileSearchContainerEl = document.querySelector('.mobile-search');
+
+
 // Helper function to close all modals/sidebars
 function closeAll() {
     cartEl.classList.remove('active');
@@ -174,20 +192,85 @@ function shuffleArray(array) {
     return newArray;
 }
 
-// *** FUNÇÃO RENDERMENU ÚNICA E CORRETA ***
-function renderMenu(items) {
-    menuEl.innerHTML = '';
-    if (items.length === 0) {
-        menuEl.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: #777; padding: 20px;">Nenhum prato encontrado.</p>';
+// Função para voltar para a página principal (Home)
+function showHomeView() {
+    restauranteViewEl.style.display = 'none';
+    menuEl.style.display = 'grid'; // Volta a exibir o grid do menu principal
+    if (categoryNavEl) categoryNavEl.style.display = 'block'; // Volta a exibir as categorias
+    if (mobileSearchContainerEl) mobileSearchContainerEl.style.display = 'flex'; // Volta a exibir a busca mobile
+    
+    // Rerenderiza o menu principal para garantir que os filtros estejam ativos
+    filterMenu(searchInput.value || mobileSearchInput.value); 
+}
+
+
+// *** FUNÇÃO PARA RENDERIZAR A PÁGINA DO RESTAURANTE ***
+function renderRestauranteView(restauranteId) {
+    const restaurante = estabelecimentos.find(e => e.id === restauranteId);
+    
+    if (!restaurante) {
+        showHomeView();
         return;
     }
     
-    // Embaralha os itens antes de renderizar
-    const shuffledItems = shuffleArray(items);
+    // 1. Oculta a Home/Menu Principal
+    menuEl.style.display = 'none';
+    if (categoryNavEl) categoryNavEl.style.display = 'none';
+    if (mobileSearchContainerEl) mobileSearchContainerEl.style.display = 'none';
     
-    shuffledItems.forEach(prato => {
+    // 2. Prepara e exibe a Nova Vista
+    restauranteViewEl.style.display = 'block';
+    
+  // *** FUNÇÃO PARA RENDERIZAR A PÁGINA DO RESTAURANTE (Atualizada) ***
+function renderRestauranteView(restauranteId) {
+    // 1. Encontra o restaurante
+    const restaurante = estabelecimentos.find(e => e.id === restauranteId);
+    
+    if (!restaurante) {
+        showHomeView();
+        return;
+    }
+    
+    // 2. Oculta a Home/Menu Principal
+    menuEl.style.display = 'none';
+    if (categoryNavEl) categoryNavEl.style.display = 'none';
+    if (mobileSearchContainerEl) mobileSearchContainerEl.style.display = 'none';
+    
+    // 3. Prepara e exibe a Nova Vista
+    restauranteViewEl.style.display = 'block';
+    
+    // 4. Renderiza o Cabeçalho do Restaurante (AGORA COM LOGO E HORÁRIOS CORRETOS)
+    
+    // Determina a URL do logo, usando um fallback se estiver faltando
+    const logoSrc = restaurante.logoUrl || '../imagens/default_logo.png';
+    
+    // Determina os horários, usando um placeholder se estiver faltando
+    const horarioAberto = restaurante.aberto || 'N/A';
+    const horarioFecha = restaurante.fecha || 'N/A';
+    
+    restauranteHeaderEl.innerHTML = `
+        <img src="${logoSrc}" alt="Logo ${restaurante.nome}" class="restaurante-logo">
+        <h2>${restaurante.nome} <i class="fas fa-store-alt" style="color: var(--primary-color);"></i></h2>
+        <p>Aberto das ${horarioAberto}h às ${horarioFecha}h</p> 
+        <button onclick="showHomeView()" style="margin-top: 10px; padding: 8px 15px; border: 1px solid var(--primary-color); background: none; color: var(--primary-color); border-radius: 5px; cursor: pointer;">
+            ← Voltar ao Menu Principal
+        </button>
+    `;
+    
+    // 5. Renderiza os Pratos do Restaurante
+    const pratosDoRestaurante = pratos.filter(p => p.restaurante_id === restauranteId);
+    
+    restauranteMenuListEl.innerHTML = '';
+    
+    if (pratosDoRestaurante.length === 0) {
+         restauranteMenuListEl.innerHTML = '<p style="text-align: center; color: #777; padding: 20px;">Este restaurante não tem pratos disponíveis no momento.</p>';
+         return;
+    }
+    
+    pratosDoRestaurante.forEach(prato => {
         const card = document.createElement('div');
         card.className = 'card';
+        // Aqui os cards não precisam de onclick, pois já estamos na página do restaurante.
         card.innerHTML = `
             <div class="image-container">
                 <img src="${prato.image}" alt="${prato.nome}" loading="lazy">
@@ -201,11 +284,49 @@ function renderMenu(items) {
                 <button onclick="addToCart(${prato.id})">Adicionar</button>
             </div>
         `;
+        restauranteMenuListEl.appendChild(card);
+    });
+
+    setTimeout(optimizeImageLoading, 100);
+}
+
+// *** FUNÇÃO RENDERMENU ADAPTADA PARA O NOVO COMPORTAMENTO (Clique no Card) ***
+function renderMenu(items) {
+    menuEl.innerHTML = '';
+    if (items.length === 0) {
+        menuEl.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: #777; padding: 20px;">Nenhum prato encontrado.</p>';
+        return;
+    }
+    
+    // Embaralha os itens antes de renderizar
+    const shuffledItems = shuffleArray(items);
+    
+    shuffledItems.forEach(prato => {
+        const restauranteId = prato.restaurante_id;
+        
+        const card = document.createElement('div');
+        card.className = 'card';
+        
+        // NOVO COMPORTAMENTO: Se o usuário clica no card (ou partes dele), ele vai para a página do restaurante.
+        card.innerHTML = `
+            <div class="image-container" onclick="renderRestauranteView(${restauranteId})" style="cursor: pointer;">
+                <img src="${prato.image}" alt="${prato.nome}" loading="lazy">
+                <div class="image-placeholder"></div>
+            </div>
+            <div class="card-content">
+                <h3 onclick="renderRestauranteView(${restauranteId})" style="cursor: pointer;">${prato.nome}</h3>
+                <p class="restaurante-nome" onclick="renderRestauranteView(${restauranteId})" style="cursor: pointer;">${prato.restaurante_nome}</p>
+                <p class="description">${prato.descricao}</p>
+                <p class="price">R$ ${prato.preco.toFixed(2).replace('.', ',')}</p>
+                <button onclick="addToCart(${prato.id})">Adicionar</button>
+            </div>
+        `;
         menuEl.appendChild(card);
     });
     
     setTimeout(optimizeImageLoading, 100);
 }
+
 
 // *** ADICIONE ESTA FUNÇÃO QUE ESTÁ FALTANDO ***
 function addToCart(id) {
@@ -220,16 +341,21 @@ function addToCart(id) {
         renderCart();
         saveCart();
 
-        // Feedback visual
+        // Feedback visual (usando o evento global se o botão for o alvo)
         const button = event.target;
-        const originalText = button.textContent;
-        button.textContent = "Adicionado!";
-        button.style.backgroundColor = "#28a745";
+        if (button && button.tagName === 'BUTTON') {
+             const originalText = button.textContent;
+             const originalBackground = window.getComputedStyle(button).backgroundColor;
+             button.textContent = "Adicionado!";
+             button.style.backgroundColor = "#28a745"; // Cor de sucesso
 
-        setTimeout(() => {
-            button.textContent = originalText;
-            button.style.backgroundColor = "";
-        }, 1000);
+             setTimeout(() => {
+                 button.textContent = originalText;
+                 button.style.backgroundColor = originalBackground;
+                 // Reverte o background para a cor primária
+                 button.style.backgroundColor = 'var(--primary-color)'; 
+             }, 1000);
+        }
     }
 }
 
@@ -315,15 +441,25 @@ function closeCart() {
 
 // Handle search and category filtering
 function filterMenu(query = '') {
-    const selectedCategory = document.querySelector('.category-nav button.active').dataset.category;
+    const selectedCategory = document.querySelector('.category-nav button.active')?.dataset.category || 'todos';
     const filteredItems = pratos.filter(prato => {
         const matchesCategory = selectedCategory === 'todos' || prato.tipo.toLowerCase() === selectedCategory.toLowerCase();
         const matchesSearch = prato.nome.toLowerCase().includes(query.toLowerCase()) ||
             prato.descricao.toLowerCase().includes(query.toLowerCase());
         return matchesCategory && matchesSearch;
     });
-    renderMenu(filteredItems);
+    
+    // Certifica-se de que estamos na Home View antes de renderizar
+    if (menuEl.style.display !== 'none') {
+        renderMenu(filteredItems);
+    }
 }
+
+// Implementação simples de Alerta Customizado (MANTIDA VAZIA conforme o código original)
+function showCustomAlert(message) {
+    alert(message); // Usando alert nativo, já que a função não foi definida
+}
+
 
 // Show order summary before sending
 function showOrderSummary() {
@@ -402,21 +538,30 @@ function checkout() {
     showOrderSummary();
 }
 
-// *** INICIALIZAÇÃO CORRIGIDA - REMOVA A DUPLICAÇÃO ***
+// *** INICIALIZAÇÃO E EVENT LISTENERS ***
 document.addEventListener('DOMContentLoaded', () => {
-    renderMenu(shuffleArray(pratos)); // Já inicia embaralhado
+    // Garante que a Home View é exibida ao carregar
+    if (restauranteViewEl) restauranteViewEl.style.display = 'none';
+    if (menuEl) menuEl.style.display = 'grid';
+    
+    renderMenu(shuffleArray(pratos)); 
     loadCart();
     renderCart();
 });
 
-// Event Listeners
-searchInput.addEventListener('input', (e) => {
-    filterMenu(e.target.value);
-});
+// Event Listeners para busca e filtro
+if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+        filterMenu(e.target.value);
+    });
+}
 
-mobileSearchInput.addEventListener('input', (e) => {
-    filterMenu(e.target.value);
-});
+if (mobileSearchInput) {
+    mobileSearchInput.addEventListener('input', (e) => {
+        filterMenu(e.target.value);
+    });
+}
+
 
 categoryButtons.forEach(button => {
     button.addEventListener('click', () => {
@@ -428,12 +573,17 @@ categoryButtons.forEach(button => {
 
 document.querySelector('.close-cart').addEventListener('click', closeCart);
 
-checkoutForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    checkout();
-});
+if (checkoutForm) {
+    checkoutForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        checkout();
+    });
+}
 
-backdropEl.addEventListener('click', closeAll);
+
+if (backdropEl) {
+    backdropEl.addEventListener('click', closeAll);
+}
 
 // Modo escuro
 const darkModeToggle = document.getElementById('dark-mode-toggle');

@@ -706,3 +706,61 @@ footer {
         height: 180px;
     }
 }
+/* Estilos para a Nova Página do Restaurante */
+#restaurante-header {
+    background-color: var(--card-background);
+    padding: 20px 15px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+body.dark-mode #restaurante-header {
+    background-color: #1c1c1c;
+}
+
+#restaurante-header h2 {
+    font-size: 1.8em;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+#restaurante-header p {
+    font-size: 1em;
+    color: #666;
+    font-weight: 500;
+}
+body.dark-mode #restaurante-header p {
+    color: #bbb;
+}
+
+#restaurante-menu-list {
+    /* NOVO: Garante 2 colunas em telas menores */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 15px; /* Volta para o gap padrão do menu principal para consistência */
+    padding: 15px 0;
+}
+/* NOVO: Estilo para a imagem/logo do restaurante */
+#restaurante-header .restaurante-logo {
+    width: 100px; /* Tamanho do logo */
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%; /* Transforma a imagem em círculo */
+    margin: 0 auto 15px auto; /* Centraliza e adiciona margem inferior */
+    border: 3px solid var(--primary-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: block; /* Garante que fique em uma linha separada */
+}
+
+
+/* Garante que os cards na página do restaurante se adaptem bem em telas maiores */
+@media (min-width: 768px) {
+    #restaurante-menu-list {
+        /* Garante colunas de 280px ou mais para desktop */
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+        gap: 20px;
+    }
+}
