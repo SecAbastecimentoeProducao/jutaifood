@@ -6,7 +6,7 @@ const estabelecimentos = [
         logoUrl: "../imagens/restMorao.jpeg",
         aberto: '10:00',
         fecha: '22:00',
-        telefone: "97984480359", // Número com código do país (55)
+        telefone: "5597984480359", // Número com código do país (55)
         pratos: [
             {
                 "id": 1001,
@@ -80,7 +80,7 @@ const estabelecimentos = [
         logoUrl: "../imagens/distribuidoraLyan.png", // Adicionei um logo padrão aqui, pois estava faltando.
         aberto: '09:00', // Adicionei horários aqui, pois estava faltando.
         fecha: '21:00', // Adicionei horários aqui, pois estava faltando.
-        telefone: "5592981446677", // Número com código do país (55)
+        telefone: "5592981583548", // Número com código do país (55)
         pratos: [
             {
                 "id": 4001,
