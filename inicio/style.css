@@ -756,6 +756,29 @@ body.dark-mode #restaurante-header p {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     display: block; /* Garante que fique em uma linha separada */
 }
+/* Adicione este CSS ao seu arquivo de estilos */
+.taxa-servico {
+    font-size: 14px;
+    color: #666;
+    margin: 5px 0;
+    border-top: 1px dashed #ddd;
+    padding-top: 5px;
+}
+
+.subtotal-restaurante {
+    font-size: 14px;
+    color: #666;
+    margin: 5px 0;
+}
+
+.total-restaurante {
+    font-weight: bold;
+    font-size: 16px;
+    color: var(--primary-color);
+    margin: 10px 0;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+}
 
 /* Adaptação para Telas Pequenas (Celular) */
 @media (max-width: 767px) {

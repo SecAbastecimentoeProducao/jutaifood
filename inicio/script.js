@@ -2,95 +2,75 @@
 const estabelecimentos = [
     {
         id: 1,
-        nome: "Bom Prato",
-        logoUrl: "../imagens/logo_bomprato.png",
+        nome:  "Restaurante Marão",
+        logoUrl: "../imagens/restMorao.jpeg",
         aberto: '08:00',
         fecha: '22:00',
-        telefone: "5592981555444", // Número com código do país (55)
+        telefone: "97984480359", // Número com código do país (55)
         pratos: [
             {
                 "id": 1001,
-                "nome": "X-Salada",
-                "descricao": "Delicioso hambúrguer de carne com queijo,clabres, bacon e molho especial.",
-                "preco": 25.50,
-                "tipo": "lanche",
-                "image": "../imagens/xCalabresa.jpg"
+                "nome": "Frango Assado/Banda",
+                "descricao": "Acompaha Arroz, Farofa, Macarrao, Vatapa e salada.",
+                "preco": 45.00,
+                "tipo": "comida",
+                "image": "../imagens/FrangoBanda.jpg"
             },
             {
                 "id": 1002,
-                "nome": "Pastel de Queijo",
-                "descricao": "Pastel frito na hora com recheio cremoso de queijo.",
-                "preco": 8.00,
-                "tipo": "lanche",
-                "image": "../imagens/pastelQueijo.jpg"
+                "nome": "Frango Assado/Inteiro",
+                "descricao": "Acompaha Arroz, Farofa, Macarrao, Vatapa e salada.",
+                "preco": 80.00,
+                "tipo": "comida",
+                "image": "../imagens/FrangoInteiro.jpg"
             },
             {
                 "id": 1003,
-                "nome": "Coca-Cola",
-                "descricao": "Lata 350ml",
-                "preco": 6.00,
-                "tipo": "distribuidora",
-                "image": "../imagens/cocaCola.png"
-            }
-        ]
-    },
-    {
-        id: 2,
-        nome: "Sushi oriental",
-        logoUrl: "../imagens/logo_bomprato.png",
-        aberto: '08:00',
-        fecha: '22:00',
-        telefone: "5592981555444", // Número com código do país (55)
-        pratos: [
-            {
-                "id": 2001,
-                "nome": "Sushi Combo",
-                "descricao": "Delicioso combo de sushi variados 40 unidades" ,
-                "preco": 70.00,
-                "tipo": "lanche",
-                "image": "../imagens/sushi.webp"
+                "nome": "Galiha Caipira Guisada",
+                "descricao": "marmita - Acompaha Arroz, Farofa, Macarrao, Vatapa e salada.",
+                "preco": 30.00,
+                "tipo": "comida",
+                "image": "../imagens/frangoGuisado.jpg"
             },
             {
-                "id": 2002,
-                "nome": "Sushi Peixe tambaqui",
-                "descricao": "sushi de peixe regional tambaqui 10 unidades.",
+                "id": 1004,
+                "nome": "Carne Bovina Assada",
+                "descricao": "marmita - Acompaha Arroz, Farofa, Macarrao, Vatapa e salada.",
+                "preco": 30.00,
+                "tipo": "comida",
+                "image": "../imagens/carneMarmita.jpeg"
+            },
+            {
+                "id": 1005,
+                "nome": "Isca de Carne Simples",
+                "descricao": "marmita - Isca de carne e Farofa",
                 "preco": 20.00,
-                "tipo": "lanche",
-                "image": "../imagens/sushiTambaqui.jpg"
+                "tipo": "comida",
+                "image": "../imagens/carneIsca.jpeg"
             },
             {
-                "id": 2003,
-                "nome": "Sushi Banana",
-                "descricao": "sushi de banana da terra 10 unidades.",
-                "preco": 20.00,
-                "tipo": "lanche",
-                "image": "../imagens/sushiBanana.jpg"
+                "id": 1006,
+                "nome": "Isca de Carne Completa",
+                "descricao": "marmita - Isca de carne, arroz, farofa, purê de batata e batata frita",
+                "preco": 30.00,
+                "tipo": "comida",
+                "image": "../imagens/carneIscaCompleta.jpeg"
             },
-        ]
-    },
-    {
-        id: 3,
-        nome: "Sabor dos Anjos",
-        logoUrl: "../imagens/distribuidoraLyan.png",
-        aberto: '08:00',
-        fecha: '22:00',
-        telefone: "5592981446677", // Número com código do país (55)
-        pratos: [
             {
-                "id": 3001,
-                "nome": "Pizza Calabresa",
-                "descricao": "Clássica pizza de calabresa com cebola e azeitonas pretas.",
+                "id": 1007,
+                "nome": "Picanha Simples",
+                "descricao": "Picanha, arroz, farofa e pure de batata",
                 "preco": 45.00,
-                "tipo": "lanche",
-                "image": "../imagens/pizzaCalabresa.jpg"
+                "tipo": "comida",
+                "image": "../imagens/picanhaSimples.jpeg"
             },
             {
-                "id": 3003,
-                "nome": "kikao Simples",
-                "descricao": "kikao simples com bao e salcicha.",
-                "preco": 10.00,
-                "tipo": "lanche",
-                "image": "../imagens/kikao.jpeg"
+                "id": 1008,
+                "nome": "Picanha Especial",
+                "descricao": "Picanha, arroz, farofa, pure de batata e batata frita",
+                "preco": 20.00,
+                "tipo": "comida",
+                "image": "../imagens/picanhaEspecial.jpeg"
             }
         ]
     },
@@ -99,14 +79,14 @@ const estabelecimentos = [
         nome: "Distribuidora Lyan",
         logoUrl: "../imagens/distribuidoraLyan.png", // Adicionei um logo padrão aqui, pois estava faltando.
         aberto: '09:00', // Adicionei horários aqui, pois estava faltando.
-        fecha: '23:00', // Adicionei horários aqui, pois estava faltando.
+        fecha: '21:00', // Adicionei horários aqui, pois estava faltando.
         telefone: "5592981446677", // Número com código do país (55)
         pratos: [
             {
                 "id": 4001,
                 "nome": "Cerveja Itaipava",
                 "descricao": "Clássica cerveja Itaipava fardinho 280ml 15/und.",
-                "preco": 45.00,
+                "preco": 44.00,
                 "tipo": "distribuidora",
                 "image": "../imagens/cerveja.jpeg"
             },
@@ -117,10 +97,52 @@ const estabelecimentos = [
                 "preco": 10.00,
                 "tipo": "distribuidora",
                 "image": "../imagens/carvaoSacola.webp"
+            },
+            {
+                "id": 4004,
+                "nome": "Refrigerante Flash Laranja",
+                "descricao": "Refrigerante sabor laranja 2 litros.",
+                "preco": 7.00,
+                "tipo": "distribuidora",
+                "image": "../imagens/refriFleshLaranja.webp"
+            },
+            {
+                "id": 4005,
+                "nome": "Refrigerante Flash Uva",
+                "descricao": "Refrigerante sabor uva 2 litros.",
+                "preco": 7.00,
+                "tipo": "distribuidora",
+                "image": "../imagens/refriFleshUva.webp"
+            },
+            {
+                "id": 4006,
+                "nome": "Refrigerante Flash Cola",
+                "descricao": "Refrigerante sabor cola 2 litros.",
+                "preco": 7.00,
+                "tipo": "distribuidora",
+                "image": "../imagens/refriFleshCola.webp"
+            },
+            {
+                "id": 4007,
+                "nome": "Cerveja Coronita Caixa 24/und",
+                "descricao": "coronita caixa com 24 uinidades.",
+                "preco": 150.00,
+                "tipo": "distribuidora",
+                "image": "../imagens/coronitaCaixa.webp"
+            },
+            {
+                "id": 4008,
+                "nome": "kikao Simples",
+                "descricao": "kikao simples com bao e salcicha.",
+                "preco": 8.00,
+                "tipo": "lanche",
+                "image": "../imagens/kikao.jpeg"
             }
+
         ]
     }
 ];
+const TAXA_SERVICO = 0.99;
 
 // Adicione esta função para otimizar imagens
 function optimizeImageLoading() {
