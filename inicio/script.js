@@ -4,7 +4,7 @@ const estabelecimentos = [
         id: 1,
         nome:  "Restaurante Marão",
         logoUrl: "../imagens/restMorao.jpeg",
-        aberto: '08:00',
+        aberto: '10:00',
         fecha: '22:00',
         telefone: "97984480359", // Número com código do país (55)
         pratos: [
@@ -30,7 +30,7 @@ const estabelecimentos = [
                 "descricao": "marmita - Acompaha Arroz, Farofa, Macarrao, Vatapa e salada.",
                 "preco": 30.00,
                 "tipo": "comida",
-                "image": "../imagens/frangoGuisado.jpg"
+                "image": "../imagens/frangoCaipira.jpeg"
             },
             {
                 "id": 1004,
