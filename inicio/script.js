@@ -2,10 +2,12 @@
 const estabelecimentos = [
     {
         id: 1,
-        nome:  "Restaurante Marão",
+        nome:  "Restaurante do Marão",
         logoUrl: "../imagens/restMorao.jpeg",
-        aberto: '10:00',
-        fecha: '22:00',
+        aberto: '11:00',
+        fecha: '14:00',
+        abertoNoite: '19:00',
+        fechadoNoite: '23:00',
         telefone: "5597984480359", // Número com código do país (55)
         pratos: [
             {
@@ -27,7 +29,7 @@ const estabelecimentos = [
             {
                 "id": 1003,
                 "nome": "Galiha Caipira Guisada",
-                "descricao": "marmita - Acompaha Arroz, Farofa, Macarrao, Vatapa e salada.",
+                "descricao": "Acompanhamentos: arroz,farofa,macarrão, maionese e vatapá.",
                 "preco": 30.00,
                 "tipo": "comida",
                 "image": "../imagens/frangoCaipira.jpeg"
@@ -35,7 +37,7 @@ const estabelecimentos = [
             {
                 "id": 1004,
                 "nome": "Carne Bovina Assada",
-                "descricao": "marmita - Acompaha Arroz, Farofa, Macarrao, Vatapa e salada.",
+                "descricao": "Acompanhamentos: arroz,farofa,macarrão, maionese e vatapá.",
                 "preco": 30.00,
                 "tipo": "comida",
                 "image": "../imagens/carneMarmita.jpeg"
@@ -43,23 +45,23 @@ const estabelecimentos = [
             {
                 "id": 1005,
                 "nome": "Isca de Carne Simples",
-                "descricao": "marmita - Isca de carne e Farofa",
-                "preco": 20.00,
-                "tipo": "comida",
-                "image": "../imagens/carneIsca.jpeg"
-            },
-            {
-                "id": 1006,
-                "nome": "Isca de Carne Completa",
-                "descricao": "marmita - Isca de carne, arroz, farofa, purê de batata e batata frita",
+                "descricao": "Acompanhamentos: arroz e farofa.",
                 "preco": 30.00,
                 "tipo": "comida",
                 "image": "../imagens/carneIscaCompleta.jpeg"
             },
             {
+                "id": 1006,
+                "nome": "Isca de Carne Simples",
+                "descricao": "marmita - Isca de carne, arroz, farofa, purê de batata e batata frita",
+                "preco": 20.00,
+                "tipo": "comida",
+                "image": "../imagens/carneIsca.jpeg"
+            },
+            {
                 "id": 1007,
                 "nome": "Picanha Simples",
-                "descricao": "Picanha, arroz, farofa e pure de batata",
+                "descricao": "Acompanhamentos: arroz, farofa e purê de batata.",
                 "preco": 45.00,
                 "tipo": "comida",
                 "image": "../imagens/picanhaSimples.jpeg"
@@ -67,10 +69,18 @@ const estabelecimentos = [
             {
                 "id": 1008,
                 "nome": "Picanha Especial",
-                "descricao": "Picanha, arroz, farofa, pure de batata e batata frita",
-                "preco": 20.00,
+                "descricao": "Acompanhamentos: arroz, farofa, purê de batata e batta frita.",
+                "preco": 50.00,
                 "tipo": "comida",
                 "image": "../imagens/picanhaEspecial.jpeg"
+            },
+            {
+                "id": 1009,
+                "nome": "Feijoada",
+                "descricao": "Acompanhamentos: arroz, farofa e laranja.",
+                "preco": 30.00,
+                "tipo": "comida",
+                "image": "../imagens/feijoada.jpeg"
             }
         ]
     },
